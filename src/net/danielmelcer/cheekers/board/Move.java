@@ -18,16 +18,28 @@ public class Move implements Iterable<Coordinate>{
 		
 	}
 	
+	/**
+	 * Returns an iterator which iterates through the coordinates contained within the move
+	 * @return An iterator containing a list of coordinates
+	 */
 	public Iterator<Coordinate> iterator(){
 		//TODO: Implement
 		return null;
 	}
 	
+	/**
+	 * Get the starting coordinate of the move
+	 * @return The initial coordinate represented by the move
+	 */
 	public Coordinate getStartingPosition(){
 		//TODO: Implement
 		return null;
 	}
 	
+	/**
+	 * Returns an array of the Coordinates represented by the move
+	 * @return The coordinates in the move
+	 */
 	public Coordinate[] getMoves(){
 		//TODO: Implement
 		return null;

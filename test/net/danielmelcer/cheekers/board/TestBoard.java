@@ -27,11 +27,6 @@ public class TestBoard {
 	}
 
 	@Test
-	public void testIsLegal() {
-		fail("Not yet implemented");
-	}
-
-	@Test
 	public void testMakeMove() {
 		fail("Not yet implemented");
 	}
@@ -50,5 +45,32 @@ public class TestBoard {
 	public void testGetPieceAtCoordinate() {
 		fail("Not yet implemented");
 	}
+	
+	@Test
+	public void testRedWin() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testBlackWin() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testNoWin() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testUndoMoveNotAvailableInit() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testUndoMoveAvailable() {
+		fail("Not yet implemented");
+	}
+	
+	
 
 }
