@@ -1,4 +1,4 @@
-package com.Melcer.cheekers.board;
+package net.danielmelcer.cheekers.board;
 
 public enum PieceType {
 	NONE, RED, BLACK, RED_KING, BLACK_KING;

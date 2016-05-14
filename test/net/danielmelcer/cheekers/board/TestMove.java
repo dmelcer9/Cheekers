@@ -1,4 +1,4 @@
-package com.Melcer.cheekers.board;
+package net.danielmelcer.cheekers.board;
 
 import static org.junit.Assert.*;
 
@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestBoardHistory {
+public class TestMove {
 
 	@Before
 	public void setUp() throws Exception {
@@ -17,17 +17,22 @@ public class TestBoardHistory {
 	}
 
 	@Test
-	public void testBoardHistory() {
+	public void testMove() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testGetMove() {
+	public void testIterator() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testGetBoard() {
+	public void testGetStartingPosition() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testGetMoves() {
 		fail("Not yet implemented");
 	}
 

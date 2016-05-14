@@ -1,4 +1,4 @@
-package com.Melcer.cheekers.board;
+package net.danielmelcer.cheekers.board;
 
 import static org.junit.Assert.*;
 
@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.Melcer.cheekers.board.PieceType;
+import net.danielmelcer.cheekers.board.PieceType;
 
 public class TestPieceType {
 

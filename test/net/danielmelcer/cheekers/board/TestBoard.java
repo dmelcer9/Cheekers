@@ -1,4 +1,4 @@
-package com.Melcer.cheekers.board;
+package net.danielmelcer.cheekers.board;
 
 import static org.junit.Assert.*;
 
