@@ -8,6 +8,8 @@ package net.danielmelcer.cheekers.board;
  * 
  * @author Daniel Melcer
  *
+ * @see SoftStack
+ * @see Move 
  */
 public class Board {
 	

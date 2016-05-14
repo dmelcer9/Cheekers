@@ -5,7 +5,8 @@ import java.util.Iterator;
  * A move object represents a single turn of the game. It is an immutable object and can hold a sequence of positions
  * (if needed for jumps)
  * @author Daniel Melcer
- *
+ * 
+ * @see Coordinate
  */
 public class Move implements Iterable<Coordinate>{
 	

@@ -5,14 +5,14 @@ package net.danielmelcer.cheekers.board;
  * This class manages a stack of a given type. References sufficiently below the top of the stack are placed into SoftReferences.
  * This means that if the JVM runs out of memory, it will start removing items from the stack.
  * @author Daniel Melcer
- *
+ * @see BoardHistory
  */
-class SoftStack<T> {
+public class SoftStack<T> {
 	
 	/**
 	 * Constructs a SoftStack with a given limit. This will define how many strong references the SoftStack will store.
 	 * Any additional items will push an item into a SoftReference
-	 * @param strongReferenceLimit
+	 * @param strongReferenceLimit The maximum number of items before Soft references are used
 	 */
 	public SoftStack(int strongReferenceLimit){
 		//TODO: Implement
