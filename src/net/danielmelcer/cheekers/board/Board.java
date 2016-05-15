@@ -7,8 +7,6 @@ package net.danielmelcer.cheekers.board;
  * manipulate copies of a Board, and the "official" board will be stored in a separate Controller class.
  * 
  * @author Daniel Melcer
- *
- * @see SoftStack
  * @see Move 
  */
 public class Board {
@@ -59,8 +57,7 @@ public class Board {
 	}
 	
 	/**
-	 * Returns if it is possible to revert to a previous move. Note that if the JVM runs low on memory, previous moves
-	 * start to get deleted
+	 * Returns if it is possible to revert to a previous move. 
 	 * @return If a previous board state is available
 	 */
 	public boolean undoMoveAvailable(){
