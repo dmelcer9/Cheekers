@@ -1,5 +1,7 @@
 package net.danielmelcer.cheekers.board;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * A move object represents a single turn of the game. It is an immutable object and can hold a sequence of positions
@@ -10,22 +12,47 @@ import java.util.Iterator;
  */
 public class Move implements Iterable<Coordinate>{
 	
+	
+	private Coordinate[] coordinates;
 	/**
 	 * Constructs a Move with the selected coordinates. 
 	 * @param coordinates A list of coordinates involved in the move, starting with the initial position.
 	 */
 	public Move(Coordinate... coordinates){
-		//TODO: Implement
+		if(coordinates.length < 2) throw new IllegalArgumentException("Moves must have a length of greater than two");
 		
+		this.coordinates = coordinates;	
 	}
 	
 	/**
 	 * Returns an iterator which iterates through the coordinates contained within the move
 	 * @return An iterator containing a list of coordinates
 	 */
-	public Iterator<Coordinate> iterator(){
-		//TODO: Implement
-		return null;
+	public Iterator<Coordinate> iterator(){		
+		return new MoveIterator(coordinates);
+	}
+	
+	private static class MoveIterator implements Iterator<Coordinate>{
+
+		private Coordinate[] c;
+		
+		int next = 0;
+		
+		public MoveIterator(Coordinate[] c){
+			this.c = c;
+		}
+		
+		@Override
+		public boolean hasNext() {
+			return (next < c.length);
+		}
+
+		@Override
+		public Coordinate next() {
+			if(!hasNext()) throw new NoSuchElementException("Reached end of iterator");
+			return c[next++];
+		}
+		
 	}
 	
 	/**
@@ -33,8 +60,7 @@ public class Move implements Iterable<Coordinate>{
 	 * @return The initial coordinate represented by the move
 	 */
 	public Coordinate getStartingPosition(){
-		//TODO: Implement
-		return null;
+		return coordinates[0];
 	}
 	
 	/**
@@ -42,8 +68,7 @@ public class Move implements Iterable<Coordinate>{
 	 * @return The coordinates in the move
 	 */
 	public Coordinate[] getMoves(){
-		//TODO: Implement
-		return null;
+		return Arrays.copyOf(coordinates, coordinates.length);
 	}
 	
 }
