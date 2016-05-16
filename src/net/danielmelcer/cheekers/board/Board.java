@@ -11,12 +11,80 @@ package net.danielmelcer.cheekers.board;
  */
 public class Board {
 	
+	private final PieceType[][] board;
+	private final int sizex;
+	private final int sizey;
+	
+	
 	/**
 	 * Construct a board with the desired Pieces.
 	 * @param board This 2D array will be the extent of the board
 	 */
 	public Board(PieceType[][] board){
-		//TODO: Implement
+		if(board.length == 0 || board[0].length == 0) throw new IllegalArgumentException("Cannot construct empty board.");
+		
+		this.board = board;
+		this.sizex = board[0].length;
+		this.sizey = board.length;
+	}
+	
+	/**
+	 * Create a board from the specified String. N or n means None, r means Red, R is red king, b is black, and B is black king.
+	 * @param s A String with the specified board.
+	 * @return A board created from the String
+	 */
+	public static Board boardFromString(String s){
+		String lines[] = s.split("\\r?\\n");
+		
+		int len = lines[0].length();
+		
+		PieceType[][] pieces = new PieceType[lines.length][len];
+		
+		for(int i = 0; i<lines.length; i++){
+			String str = lines[i];
+			for(int j = 0; i<str.length(); i++){
+				switch(str.charAt(j)){
+				case 'N': case 'n':
+					pieces[i][j] = PieceType.NONE;
+					break;
+				case 'r':
+					pieces[i][j] = PieceType.RED;
+					break;
+				case 'R':
+					pieces[i][j] = PieceType.RED_KING;
+					break;
+				case 'b':
+					pieces[i][j] = PieceType.BLACK;
+					break;
+				case 'B':
+					pieces[i][j] = PieceType.BLACK_KING;
+					break;
+				default:
+					pieces[i][j] = PieceType.NONE;
+					break;
+				}
+			}
+		}
+		
+		return new Board(pieces);
+	}
+	
+	/**
+	 * Returns if the contents of two boards are equal
+	 * @param b The board to compare this board to
+	 * @return If the two boards are equal
+	 */
+	public boolean contentsEqual(Board b){
+		if((b.sizex != this.sizex)||(b.sizey!=this.sizey)) return false;
+		
+		for(int i = 0; i<sizey; i++){
+			for(int j = 0; j<sizex; j++){
+				if(this.board[i][j] != b.board[i][j]) return false;
+			}
+		}
+		
+		return true;
+		
 	}
 	
 	/**

@@ -16,19 +16,39 @@ public class TestBoard {
 	public void tearDown() throws Exception {
 	}
 
-	@Test
-	public void testBoard() {
-		fail("Not yet implemented");
+	@Test(expected=IllegalArgumentException.class)
+	public void testEmptyBoard() {
+		PieceType[][] b = {};
+		new Board(b);
 	}
-
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testEmptyRow() {
+		PieceType[][] b = {{},{}};
+		new Board(b);
+	}
+	
 	@Test
-	public void testGetDefaultBoard() {
-		fail("Not yet implemented");
+	public void testNormalBoard(){
+		PieceType[][] b = {{PieceType.BLACK}};
+		new Board(b);
 	}
 
 	@Test
 	public void testMakeMove() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("nn\nBn");
+		
+		Coordinate c1 = new Coordinate(0,1);
+		Coordinate c2 = new Coordinate(1,0);
+		
+		Move m = new Move(c1,c2);
+		
+		b.makeMove();
+		
+		Board expected = Board.boardFromString("nB\nnn");
+		
+		for(int i = 0; i<b.)
+		//TODO
 	}
 
 	@Test
