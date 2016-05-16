@@ -8,13 +8,6 @@ import org.junit.Test;
 
 public class TestBoard {
 
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
 
 	@Test(expected=IllegalArgumentException.class)
 	public void testEmptyBoard() {
@@ -34,6 +27,40 @@ public class TestBoard {
 		new Board(b);
 	}
 
+	
+	@Test
+	public void testBoardFromString(){
+		Board b = Board.boardFromString("nNbBrR");
+		
+		PieceType[][] pieces = b.getBoard();
+		
+		assertTrue(pieces.length==1);
+		
+		PieceType[] row = pieces[0];
+		
+		assertTrue(row.length == 6);
+		
+		PieceType[] expected = {PieceType.NONE, PieceType.NONE, PieceType.BLACK, PieceType.BLACK_KING, PieceType.RED, PieceType.RED_KING};
+		
+		assertArrayEquals(row, expected);
+	}
+	
+	@Test
+	public void testContentsEqual(){
+		Board b = Board.boardFromString("nn\nBn");
+		Board b2 = Board.boardFromString("nn\nBn");
+		
+		assertTrue(b.contentsEqual(b2));
+	}
+	
+	@Test
+	public void testContentsNotEqual(){
+		Board b = Board.boardFromString("nn\nBn");
+		Board b2 = Board.boardFromString("nn\nBB");
+		
+		assertFalse(b.contentsEqual(b2));
+	}
+	
 	@Test
 	public void testMakeMove() {
 		Board b = Board.boardFromString("nn\nBn");
@@ -43,17 +70,24 @@ public class TestBoard {
 		
 		Move m = new Move(c1,c2);
 		
-		b.makeMove();
+		b = b.makeMove(m);
 		
 		Board expected = Board.boardFromString("nB\nnn");
 		
-		for(int i = 0; i<b.)
-		//TODO
+		assertTrue(b.contentsEqual(expected));
+	
 	}
 
 	@Test
 	public void testUndoMove() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("nn\nBn");
+		
+		Move m = new Move(new Coordinate(0,1), new Coordinate(1,0));
+		
+		Board newBoard = b.makeMove(m);
+		
+		assertTrue(newBoard.contentsEqual(b.undoMove()));
+		
 	}
 
 	@Test

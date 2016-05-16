@@ -1,5 +1,7 @@
 package net.danielmelcer.cheekers.board;
 
+import java.util.Stack;
+
 /**
  * 
  * The Board class represents a board that checkers is played on. This immutable class returns mutated
@@ -15,6 +17,8 @@ public class Board {
 	private final int sizex;
 	private final int sizey;
 	
+	private final Stack<PieceType[][]> prevBoards;
+	
 	
 	/**
 	 * Construct a board with the desired Pieces.
@@ -26,6 +30,8 @@ public class Board {
 		this.board = board;
 		this.sizex = board[0].length;
 		this.sizey = board.length;
+		
+		prevBoards = new Stack<>();
 	}
 	
 	/**
@@ -42,7 +48,8 @@ public class Board {
 		
 		for(int i = 0; i<lines.length; i++){
 			String str = lines[i];
-			for(int j = 0; i<str.length(); i++){
+			
+			for(int j = 0; j<str.length(); j++){
 				switch(str.charAt(j)){
 				case 'N': case 'n':
 					pieces[i][j] = PieceType.NONE;
@@ -98,30 +105,38 @@ public class Board {
 	
 	/**
 	 * Check if a move is legal in the context of this board
+	 * @param move The move to check if legal
 	 * @return A boolean value indicating if a given move is legal
 	 */
-	public boolean isLegal(){
+	public boolean isLegal(Move move){
 		//TODO: Implement
 		return false;
 	}
 	
 	/**
 	 * Returns a board with the move
+	 * @param move The move to check if legal
 	 * @return A modified board where the move has been performed
 	 */
-	public Board makeMove(){
+	public Board makeMove(Move move){
 		//TODO: Implement
 		return null;
 	}
 	
 	/**
-	 * Returns a board with the state of the previous move. The previous 5 BoardHistories are stored in strong references,
-	 * while moves prior to that are stored in SoftReferences
+	 * Returns a board with the state of the previous move. 
 	 * @return The previous state of the board
 	 */
 	public Board undoMove(){
-		//TODO: Implement
-		return null;
+		if(!undoMoveAvailable()) throw new IllegalStateException("Cannot undo move");
+		
+		Stack<PieceType[][]> st = (Stack<PieceType[][]>) this.prevBoards.clone();
+		
+		Board b = new Board(st.pop());
+		
+		b.prevBoards = st;
+		
+		
 	}
 	
 	/**
@@ -129,8 +144,7 @@ public class Board {
 	 * @return If a previous board state is available
 	 */
 	public boolean undoMoveAvailable(){
-		//TODO: Implement
-		return false;
+		return !prevBoards.isEmpty();
 	}
 	
 	/**
