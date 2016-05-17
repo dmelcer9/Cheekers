@@ -1,5 +1,6 @@
 package net.danielmelcer.cheekers.board;
 
+import java.util.Iterator;
 import java.util.Stack;
 
 /**
@@ -25,13 +26,18 @@ public class Board {
 	 * @param board This 2D array will be the extent of the board
 	 */
 	public Board(PieceType[][] board){
+		this(board, new Stack<>());
+	}
+	
+	private Board(PieceType[][] board, Stack<PieceType[][]> prevBoards){
+
 		if(board.length == 0 || board[0].length == 0) throw new IllegalArgumentException("Cannot construct empty board.");
 		
 		this.board = board;
 		this.sizex = board[0].length;
 		this.sizey = board.length;
 		
-		prevBoards = new Stack<>();
+		this.prevBoards = prevBoards;
 	}
 	
 	/**
@@ -110,7 +116,7 @@ public class Board {
 	 */
 	public boolean isLegal(Move move){
 		//TODO: Implement
-		return false;
+		return true;
 	}
 	
 	/**
@@ -119,8 +125,61 @@ public class Board {
 	 * @return A modified board where the move has been performed
 	 */
 	public Board makeMove(Move move){
-		//TODO: Implement
-		return null;
+		if(!isLegal(move)){
+			throw new IllegalArgumentException("Move is not legal");
+		}
+		
+		Iterator<Coordinate> it = move.iterator();
+		
+		PieceType[][] newBoard = this.getBoard();
+		
+		Coordinate InitCoord = it.next();
+		
+		int pieceX = InitCoord.getX();
+		int pieceY = InitCoord.getY();
+		
+		while(it.hasNext()){
+			Coordinate c = it.next();
+			
+			int newX = c.getX();
+			int newY = c.getY();
+			
+			if(Math.abs(newX-pieceX)==2 && Math.abs(newY-pieceY) == 2){
+				newBoard[(newX+pieceX)/2][(newY+pieceY)/2] = PieceType.NONE;
+			}
+			
+			newBoard[newX][newY] = newBoard[pieceX][pieceY];
+			
+			pieceX = newX;
+			pieceY = newY;
+			
+			if(atKingEdge(new Coordinate(pieceX, pieceY), newBoard)){
+				newBoard[pieceX][pieceY] = newBoard[pieceX][pieceY].KingPiece();
+			}
+		}
+		
+		Stack<PieceType[][]> newStack = (Stack<PieceType[][]>) this.prevBoards.clone();
+		
+		newStack.push(this.getBoard());
+		
+		//TODO Fix
+		
+		return new Board(newBoard, newStack);
+	}
+	
+	private static boolean atKingEdge(Coordinate c, PieceType[][] board){
+		PieceType p = board[c.getX()][c.getY()];
+		
+		switch(p){
+		case RED:
+			if(c.getY()==0) return true;
+			break;
+		case BLACK:
+			if(c.getY() == (board.length-1)) return true;
+			break;
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -132,9 +191,9 @@ public class Board {
 		
 		Stack<PieceType[][]> st = (Stack<PieceType[][]>) this.prevBoards.clone();
 		
-		Board b = new Board(st.pop());
+		Board b = new Board(st.pop(), st);
 		
-		b.prevBoards = st;
+		return b;
 		
 		
 	}
@@ -152,8 +211,15 @@ public class Board {
 	 * @return A copy of the board
 	 */
 	public PieceType[][] getBoard(){
-		//TODO: Implement
-		return null;
+		PieceType[][] newBoard = new PieceType[board.length][board[0].length];
+		
+		for(int i = 0; i<newBoard.length; i++){
+			for(int j = 0; j<newBoard.length; j++){
+				newBoard[i][j] = board[i][j];
+			}
+		}
+		
+		return newBoard;
 	}
 	
 	/**
@@ -162,8 +228,11 @@ public class Board {
 	 * @return The piece at the coordinate
 	 */
 	public PieceType getPieceAtCoordinate(Coordinate c){
-		//TODO: Implement
-		return null;
+		if(c.getX()>=this.sizex || c.getY() >= this.sizey) throw new IllegalArgumentException("Coordinate is out of range.");
+		
+		if(c.getX()<0||c.getY()<0) throw new IllegalArgumentException("Coordinate cannot be negative");
+		
+		return board[c.getX()][c.getY()];
 	}
 	
 }

@@ -86,7 +86,9 @@ public class TestBoard {
 		
 		Board newBoard = b.makeMove(m);
 		
-		assertTrue(newBoard.contentsEqual(b.undoMove()));
+		assertFalse(b.contentsEqual(newBoard));
+		
+		assertTrue(newBoard.undoMove().contentsEqual(b));
 		
 	}
 
