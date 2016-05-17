@@ -17,10 +17,6 @@ public class TestCoordinate {
 		c = new Coordinate(3,5);
 	}
 
-	@After
-	public void tearDown() throws Exception {
-	}
-
 	@Test
 	public void testGetX() {
 		assertTrue(c.getX() == 3);

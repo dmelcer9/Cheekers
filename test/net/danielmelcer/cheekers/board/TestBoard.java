@@ -94,27 +94,64 @@ public class TestBoard {
 
 	@Test
 	public void testGetBoard() {
-		fail("Not yet implemented");
+		PieceType[][] pt = {
+				{PieceType.BLACK, PieceType.NONE},
+				{PieceType.RED, PieceType.BLACK_KING}
+		};
+		
+		Board b = new Board(pt);
+		
+		PieceType[][] actual = b.getBoard();
+		
+		assertArrayEquals(pt[0], actual[0]);
+		assertArrayEquals(pt[1], actual[1]);
 	}
 
 	@Test
 	public void testGetPieceAtCoordinate() {
-		fail("Not yet implemented");
+		PieceType[][] pt = {
+				{PieceType.BLACK, PieceType.NONE},
+				{PieceType.RED, PieceType.BLACK_KING}
+		};
+		
+		Board b = new Board(pt);
+		
+		assertEquals(b.getPieceAtCoordinate(new Coordinate(0,0)),pt[0][0]);
+		assertEquals(b.getPieceAtCoordinate(new Coordinate(1,1)),pt[1][1]);
+		
+		
 	}
 	
 	@Test
 	public void testRedWin() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("nNr\nRnn\nRrn");
+		
+		assertEquals(b.getWinState(), WinState.RED_WIN);
+		
 	}
 	
 	@Test
 	public void testBlackWin() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("Bbn\nBnn\nNNb");
+		
+		assertEquals(b.getWinState(), WinState.BLACK_WIN);
 	}
+	
 	
 	@Test
 	public void testNoWin() {
-		fail("Not yet implemented");
+		
+		Board b = Board.boardFromString("Bbn\nBrn\nNNb");
+		
+		assertEquals(b.getWinState(), WinState.NEITHER_WIN);
+	}
+	
+	@Test
+	public void testEmptyWin() {
+		
+		Board b = Board.boardFromString("nnn\nNNN\nnNn");
+		
+		assertEquals(b.getWinState(), WinState.EMPTY);
 	}
 	
 	@Test

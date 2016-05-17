@@ -145,10 +145,12 @@ public class Board {
 			int newY = c.getY();
 			
 			if(Math.abs(newX-pieceX)==2 && Math.abs(newY-pieceY) == 2){
-				newBoard[(newX+pieceX)/2][(newY+pieceY)/2] = PieceType.NONE;
+				newBoard[(newY+pieceY)/2][(newX+pieceX)/2] = PieceType.NONE;
 			}
 			
-			newBoard[newX][newY] = newBoard[pieceX][pieceY];
+			newBoard[newY][newX] = newBoard[pieceY][pieceX];
+			
+			newBoard[pieceY][pieceX] = PieceType.NONE;
 			
 			pieceX = newX;
 			pieceY = newY;
@@ -168,7 +170,7 @@ public class Board {
 	}
 	
 	private static boolean atKingEdge(Coordinate c, PieceType[][] board){
-		PieceType p = board[c.getX()][c.getY()];
+		PieceType p = board[c.getY()][c.getX()];
 		
 		switch(p){
 		case RED:
@@ -233,6 +235,14 @@ public class Board {
 		if(c.getX()<0||c.getY()<0) throw new IllegalArgumentException("Coordinate cannot be negative");
 		
 		return board[c.getX()][c.getY()];
+	}
+	
+	/**
+	 * Tests if a given color has won the game
+	 * @return The win state of the game
+	 */
+	public WinState getWinState(){
+		return null;
 	}
 	
 }
