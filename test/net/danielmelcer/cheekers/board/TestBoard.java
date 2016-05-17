@@ -42,7 +42,7 @@ public class TestBoard {
 		
 		PieceType[] expected = {PieceType.NONE, PieceType.NONE, PieceType.BLACK, PieceType.BLACK_KING, PieceType.RED, PieceType.RED_KING};
 		
-		assertArrayEquals(row, expected);
+		assertArrayEquals(expected, row);
 	}
 	
 	@Test
@@ -106,6 +106,23 @@ public class TestBoard {
 		assertArrayEquals(pt[0], actual[0]);
 		assertArrayEquals(pt[1], actual[1]);
 	}
+	
+	@Test
+	public void testGetBoardRect(){
+		PieceType[][] pt = {
+				{PieceType.BLACK, PieceType.NONE, PieceType.RED, PieceType.BLACK_KING}
+		};
+		
+		Board b = new Board(pt);
+		
+		PieceType[][] actual = b.getBoard();
+		
+		assertTrue(actual.length == 1);
+		assertTrue(actual[0].length == 4);
+		
+		assertArrayEquals(pt[0], actual[0]);
+		
+	}
 
 	@Test
 	public void testGetPieceAtCoordinate() {
@@ -118,8 +135,6 @@ public class TestBoard {
 		
 		assertEquals(b.getPieceAtCoordinate(new Coordinate(0,0)),pt[0][0]);
 		assertEquals(b.getPieceAtCoordinate(new Coordinate(1,1)),pt[1][1]);
-		
-		
 	}
 	
 	@Test
@@ -156,12 +171,23 @@ public class TestBoard {
 	
 	@Test
 	public void testUndoMoveNotAvailableInit() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("br");
+		
+		assertFalse(b.undoMoveAvailable());
 	}
 	
 	@Test
 	public void testUndoMoveAvailable() {
-		fail("Not yet implemented");
+		
+		Board b = Board.boardFromString("nn\nBn");
+		
+		Move m = new Move(new Coordinate(0,1), new Coordinate(1,0));
+		
+		Board newBoard = b.makeMove(m);
+		
+		assertTrue(newBoard.undoMoveAvailable());
+		
+		assertFalse(newBoard.undoMove().undoMoveAvailable());
 	}
 	
 	

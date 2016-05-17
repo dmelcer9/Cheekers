@@ -216,7 +216,7 @@ public class Board {
 		PieceType[][] newBoard = new PieceType[board.length][board[0].length];
 		
 		for(int i = 0; i<newBoard.length; i++){
-			for(int j = 0; j<newBoard.length; j++){
+			for(int j = 0; j<newBoard[0].length; j++){
 				newBoard[i][j] = board[i][j];
 			}
 		}
@@ -242,7 +242,34 @@ public class Board {
 	 * @return The win state of the game
 	 */
 	public WinState getWinState(){
-		return null;
+		boolean hasBlack = false;
+		boolean hasRed = false;
+		
+		for(PieceType[] row : this.board){
+			for(PieceType pt : row){
+				switch(pt){
+				case BLACK: case BLACK_KING:
+					hasBlack = true;
+					break;
+				case RED: case RED_KING:
+					hasRed = true;
+					break;
+				}
+			}
+		}
+		
+		if(!hasBlack && !hasRed){
+			return WinState.EMPTY;
+		}
+		else if(hasBlack&&!hasRed){
+			return WinState.BLACK_WIN;
+		}
+		else if(!hasBlack && hasRed){
+			return WinState.RED_WIN;
+		}
+		else{
+			return WinState.NEITHER_WIN;
+		}
 	}
 	
 }
