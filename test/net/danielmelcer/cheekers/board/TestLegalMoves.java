@@ -8,32 +8,56 @@ public class TestLegalMoves {
 
 	@Test
 	public void basicMove() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("nn\nrn");
+		
+		Move m = new Move(new Coordinate(0,1),new Coordinate(1,0));
+		
+		assertTrue(b.isLegal(m));
 	}
 	
 	@Test
 	public void testNotDiagnol(){
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("nn\nrn");
+		
+		Move m = new Move(new Coordinate(0,1),new Coordinate(0,0));
+		
+		assertFalse(b.isLegal(m));
 	}
 	
 	@Test
 	public void testMoveOffSideEdge() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("nn\nnr");
+		
+		Move m = new Move(new Coordinate(1,1),new Coordinate(2,0));
+		
+		assertFalse(b.isLegal(m));
 	}
 	
 	@Test
 	public void testMoveOffTopEdge() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("nr\nnn");
+		
+		Move m = new Move(new Coordinate(1,0),new Coordinate(0,-1));
+		
+		assertFalse(b.isLegal(m));
 	}
 	
 	@Test
 	public void testBackwardsRedMove() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("nr\nnn");
+		
+		Move m = new Move(new Coordinate(1,0),new Coordinate(0,1));
+		
+		assertFalse(b.isLegal(m));
 	}
 	
 	@Test
 	public void testBackwardsBlackMove() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("nn\nbn");
+		
+		Move m = new Move(new Coordinate(0,1),new Coordinate(1,0));
+		
+		assertFalse(b.isLegal(m));
 	}
 	
 	@Test

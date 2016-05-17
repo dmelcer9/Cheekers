@@ -8,7 +8,21 @@ public class TestMoveResult {
 
 	@Test
 	public void testNormalMove() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString(
+				  "nnnn\n"
+				+ "nnnn\n"
+				+ "nBnn\n"
+				+ "nnnn");
+		
+		Board result = b.makeMove(new Move(new Coordinate(1,2), new Coordinate(2,3)));
+		
+		Board expected = Board.boardFromString(
+				"nnnn\n"
+				+ "nnnn\n"
+				+ "nnnn\n"
+				+ "nnBn");
+		
+		assertTrue(result.contentsEqual(expected));
 	}
 	
 	@Test

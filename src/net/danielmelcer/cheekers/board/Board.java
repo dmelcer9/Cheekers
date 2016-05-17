@@ -164,8 +164,6 @@ public class Board {
 		
 		newStack.push(this.getBoard());
 		
-		//TODO Fix
-		
 		return new Board(newBoard, newStack);
 	}
 	
