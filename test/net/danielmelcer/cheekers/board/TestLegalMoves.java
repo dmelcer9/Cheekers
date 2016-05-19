@@ -62,47 +62,82 @@ public class TestLegalMoves {
 	
 	@Test
 	public void testBackwardsRedKingMove() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("nR\nnn");
+		
+		Move m = new Move(new Coordinate(1,0),new Coordinate(0,1));
+		
+		assertTrue(b.isLegal(m));
 	}
 	
 	@Test
 	public void testBackwardsBlackKingMove() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("nn\nBn");
+		
+		Move m = new Move(new Coordinate(0,1),new Coordinate(1,0));
+		
+		assertTrue(b.isLegal(m));
 	}
 	
 	@Test
 	public void testLandOnOtherPieces() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("nb\nrn");
+		
+		Move m = new Move(new Coordinate(0,1),new Coordinate(1,0));
+		
+		assertFalse(b.isLegal(m));
 	}
 	
 	@Test
 	public void testBasicJump() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("nnn\nnbn\nrnn");
+		Move m = new Move(new Coordinate(0,2), new Coordinate(2,0));
+		
+		assertTrue(b.isLegal(m));
 	}
 	
 	@Test
 	public void testMultiJump() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("nnnnn\nnnnbn\nnnnnn\nnbnnn\nrnnnn");
+		
+		Move m = new Move(new Coordinate(0,4), new Coordinate(2,2), new Coordinate(4,0));
+		
+		assertTrue(b.isLegal(m));
 	}
 	
 	@Test
 	public void testBackwardsJumpNotKing() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("nnr\nnbn\nnnn");
+		
+		Move m = new Move(new Coordinate(2,0), new Coordinate(0,2));
+		
+		assertFalse(b.isLegal(m));
 	}
 	
 	@Test
 	public void testBackwardsJumpKing() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("nnR\nnbn\nnnn");
+		
+		Move m = new Move(new Coordinate(2,0), new Coordinate(0,2));
+		
+		assertTrue(b.isLegal(m));
 	}
 	
 	@Test
 	public void testMultiBackwardsJumpNotKing() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("nnnnn\nnbnbn\nrnnnn");
+		
+		Move m = new Move(new Coordinate(0,2), new Coordinate(2,0), new Coordinate(4,2));
+		
+		assertFalse(b.isLegal(m));
 	}
 	
 	@Test
 	public void testMultiBackwardsJumpKing() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("nnnnn\nnbnbn\nRnnnn");
+		
+		Move m = new Move(new Coordinate(0,2), new Coordinate(2,0), new Coordinate(4,2));
+		
+		assertTrue(b.isLegal(m));
 	}
 	
 	@Test
