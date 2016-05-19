@@ -142,17 +142,30 @@ public class TestLegalMoves {
 	
 	@Test
 	public void testJumpOwnPiece() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("nnn\nnrn\nrnn");
+		
+		Move m = new Move(new Coordinate(0,2), new Coordinate(2,0));
+		
+		assertFalse(b.isLegal(m));
 	}
 	
 	@Test
 	public void testMultiJumpOwnPiece() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("nnnnn\nnrnnn\nnnnnn\nnnnbn\nnnnnr");
+		
+		Move m = new Move(new Coordinate(4,4), new Coordinate(2,2), new Coordinate(0,0));
+		
+		assertFalse(b.isLegal(m));
 	}
 	
 	@Test
 	public void testMultiJumpAvailable() {
-		fail("Not yet implemented");
+		Board b = Board.boardFromString("nnnnn\nnbnnn\nnnnnn\nnnnbn\nnnnnr");
+
+		
+		Move m = new Move(new Coordinate(4,4), new Coordinate(2,2));
+		
+		assertTrue(b.isLegal(m));
 	}
 	
 
