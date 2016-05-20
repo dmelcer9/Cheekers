@@ -115,7 +115,43 @@ public class Board {
 	 * @return A boolean value indicating if a given move is legal
 	 */
 	public boolean isLegal(Move move){
-		//TODO: Implement
+		Iterator<Coordinate> m = move.iterator();
+		
+		Coordinate starting = m.next();
+		PieceType piece = this.getPieceAtCoordinate(starting);
+		
+		boolean[][] jumpedPieces = new boolean[board.length][board[0].length];
+		
+		boolean isFirstMove = true;
+		boolean firstMoveIsJump = false;
+		
+		while(m.hasNext()){
+			Coordinate nextMove = m.next();
+			
+			//Check if move is in bounds
+			if(nextMove.getX()<0 || nextMove.getY()<0) return false;
+			if(nextMove.getX()>=board[0].length || nextMove.getY()>= board.length) return false;
+			
+			//No multi moves if there wasn't a jump
+			if(!isFirstMove && !firstMoveIsJump) return false;
+			
+			//Check if move is backwards && not king
+			boolean goingUp = false;
+			if(starting.getY() < nextMove.getY()) goingUp = true;
+			
+			if(goingUp && piece == PieceType.BLACK) return false;
+			if(!goingUp && piece == PieceType.RED) return false;
+			
+			boolean isDiagnol = ((Math.abs(nextMove.getX()-starting.getX()))==(Math.abs(nextMove.getY()-starting.getY())));
+			boolean staysInPlace = (Math.abs(nextMove.getX()-starting.getX())==0);
+			
+			if(!isDiagnol || staysInPlace) return false;
+			
+			//Check if orthogonal move
+			//Check if jumping own piece
+			//Check if landing on piece
+			//If is second move, check if both moves are a jump
+		}
 		return true;
 	}
 	
