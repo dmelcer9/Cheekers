@@ -222,7 +222,7 @@ public class Board {
 			pieceY = newY;
 			
 			if(atKingEdge(new Coordinate(pieceX, pieceY), newBoard)){
-				newBoard[pieceX][pieceY] = newBoard[pieceX][pieceY].KingPiece();
+				newBoard[pieceY][pieceX] = newBoard[pieceY][pieceX].KingPiece();
 			}
 		}
 		
