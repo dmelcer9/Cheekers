@@ -133,24 +133,54 @@ public class Board {
 			if(nextMove.getX()>=board[0].length || nextMove.getY()>= board.length) return false;
 			
 			//No multi moves if there wasn't a jump
-			if(!isFirstMove && !firstMoveIsJump) return false;
+			if(!isFirstMove && !firstMoveIsJump) return false; //If is second move, check if both moves are a jump
 			
 			//Check if move is backwards && not king
 			boolean goingUp = false;
-			if(starting.getY() < nextMove.getY()) goingUp = true;
+			if(starting.getY() > nextMove.getY()) goingUp = true;
 			
 			if(goingUp && piece == PieceType.BLACK) return false;
 			if(!goingUp && piece == PieceType.RED) return false;
 			
 			boolean isDiagnol = ((Math.abs(nextMove.getX()-starting.getX()))==(Math.abs(nextMove.getY()-starting.getY())));
-			boolean staysInPlace = (Math.abs(nextMove.getX()-starting.getX())==0);
+			boolean staysInPlace = (Math.abs(nextMove.getX()-starting.getX())==0);//Check if orthogonal move
 			
 			if(!isDiagnol || staysInPlace) return false;
 			
-			//Check if orthogonal move
-			//Check if jumping own piece
-			//Check if landing on piece
-			//If is second move, check if both moves are a jump
+			boolean isJump = ((Math.abs(nextMove.getX()-starting.getX())==2)&&(Math.abs(nextMove.getY()-starting.getY())==2));
+			
+			if(isJump && !isFirstMove && firstMoveIsJump) return false;
+			
+			if(isJump && isFirstMove) firstMoveIsJump = true;
+			
+			if(this.getPieceAtCoordinate(nextMove) != PieceType.NONE) return false; //Check if landing on piece
+			
+			if(isJump){
+				int jumpx = (nextMove.getX() + starting.getX())/2;
+				int jumpy = (nextMove.getY() + starting.getY())/2;
+				
+				if(jumpedPieces[jumpy][jumpx]) return false;
+				
+				jumpedPieces[jumpy][jumpx] = true;
+				
+				//Check if jumping own piece
+				PieceType jumpedPiece = getPieceAtCoordinate(new Coordinate(jumpx, jumpy));
+				
+				if((piece == PieceType.BLACK)||(piece == PieceType.BLACK_KING)){
+					if((jumpedPiece == PieceType.BLACK)||(jumpedPiece == PieceType.BLACK_KING)){
+						return false;
+					}
+				}
+				
+				if((piece == PieceType.RED)||(piece == PieceType.RED_KING)){
+					if((jumpedPiece == PieceType.RED)||(jumpedPiece == PieceType.RED_KING)){
+						return false;
+					}
+				}
+			}
+			
+			starting = nextMove;
+			
 		}
 		return true;
 	}
@@ -268,7 +298,7 @@ public class Board {
 		
 		if(c.getX()<0||c.getY()<0) throw new IllegalArgumentException("Coordinate cannot be negative");
 		
-		return board[c.getX()][c.getY()];
+		return board[c.getY()][c.getX()];
 	}
 	
 	/**

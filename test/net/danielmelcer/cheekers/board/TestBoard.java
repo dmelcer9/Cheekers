@@ -134,6 +134,8 @@ public class TestBoard {
 		Board b = new Board(pt);
 		
 		assertEquals(b.getPieceAtCoordinate(new Coordinate(0,0)),pt[0][0]);
+		assertEquals(b.getPieceAtCoordinate(new Coordinate(1,0)),pt[0][1]);
+		assertEquals(b.getPieceAtCoordinate(new Coordinate(0,1)),pt[1][0]);
 		assertEquals(b.getPieceAtCoordinate(new Coordinate(1,1)),pt[1][1]);
 	}
 	
