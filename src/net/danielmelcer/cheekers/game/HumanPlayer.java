@@ -14,6 +14,10 @@ public class HumanPlayer implements Player {
 	private CountDownLatch moveSubmitted;
 	private Move moveToGet;
 	
+	/**
+	 * Gets move inputed by player. Note that this sets moveListener in GUIBoard.
+	 * @param gc The GameController that is requesting the move
+	 */
 	@Override
 	public Move requestMove(GameController gc) {
 		moveSubmitted = new CountDownLatch(1);
@@ -28,7 +32,7 @@ public class HumanPlayer implements Player {
 		return moveToGet;
 	}
 	
-	public void receiveMove(Move m){
+	private void receiveMove(Move m){
 		this.moveToGet = m;
 		this.moveSubmitted.countDown();
 	}

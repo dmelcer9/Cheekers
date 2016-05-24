@@ -64,7 +64,7 @@ public class GameController {
 	 * @throws IllegalArgumentException If the move is illegal
 	 */
 	private Board MakeMove(Move m, SelectingPlayer sp) throws IllegalArgumentException{
-		Board newBoard = currentBoard.makeMove(m, null);
+		Board newBoard = currentBoard.makeMove(m, sp);
 		//TODO
 		currentBoard = newBoard;
 		return newBoard;
