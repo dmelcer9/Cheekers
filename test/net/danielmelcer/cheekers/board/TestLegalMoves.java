@@ -12,7 +12,7 @@ public class TestLegalMoves {
 		
 		Move m = new Move(new Coordinate(0,1),new Coordinate(1,0));
 		
-		assertTrue(b.isLegal(m));
+		assertTrue(b.isLegal(m, SelectingPlayer.RED));
 	}
 	
 	@Test
@@ -21,7 +21,7 @@ public class TestLegalMoves {
 		
 		Move m = new Move(new Coordinate(0,1),new Coordinate(0,0));
 		
-		assertFalse(b.isLegal(m));
+		assertFalse(b.isLegal(m, SelectingPlayer.RED));
 	}
 	
 	@Test
@@ -30,7 +30,7 @@ public class TestLegalMoves {
 		
 		Move m = new Move(new Coordinate(1,1),new Coordinate(2,0));
 		
-		assertFalse(b.isLegal(m));
+		assertFalse(b.isLegal(m, SelectingPlayer.RED));
 	}
 	
 	@Test
@@ -39,7 +39,7 @@ public class TestLegalMoves {
 		
 		Move m = new Move(new Coordinate(1,0),new Coordinate(0,-1));
 		
-		assertFalse(b.isLegal(m));
+		assertFalse(b.isLegal(m, SelectingPlayer.RED));
 	}
 	
 	@Test
@@ -48,7 +48,7 @@ public class TestLegalMoves {
 		
 		Move m = new Move(new Coordinate(1,0),new Coordinate(0,1));
 		
-		assertFalse(b.isLegal(m));
+		assertFalse(b.isLegal(m, SelectingPlayer.RED));
 	}
 	
 	@Test
@@ -57,7 +57,7 @@ public class TestLegalMoves {
 		
 		Move m = new Move(new Coordinate(0,1),new Coordinate(1,0));
 		
-		assertFalse(b.isLegal(m));
+		assertFalse(b.isLegal(m, SelectingPlayer.BLACK));
 	}
 	
 	@Test
@@ -66,7 +66,7 @@ public class TestLegalMoves {
 		
 		Move m = new Move(new Coordinate(1,0),new Coordinate(0,1));
 		
-		assertTrue(b.isLegal(m));
+		assertTrue(b.isLegal(m, SelectingPlayer.RED));
 	}
 	
 	@Test
@@ -75,7 +75,7 @@ public class TestLegalMoves {
 		
 		Move m = new Move(new Coordinate(0,1),new Coordinate(1,0));
 		
-		assertTrue(b.isLegal(m));
+		assertTrue(b.isLegal(m, SelectingPlayer.BLACK));
 	}
 	
 	@Test
@@ -84,7 +84,7 @@ public class TestLegalMoves {
 		
 		Move m = new Move(new Coordinate(0,1),new Coordinate(1,0));
 		
-		assertFalse(b.isLegal(m));
+		assertFalse(b.isLegal(m, SelectingPlayer.RED));
 	}
 	
 	@Test
@@ -92,7 +92,7 @@ public class TestLegalMoves {
 		Board b = Board.boardFromString("nnn\nnbn\nrnn");
 		Move m = new Move(new Coordinate(0,2), new Coordinate(2,0));
 		
-		assertTrue(b.isLegal(m));
+		assertTrue(b.isLegal(m, SelectingPlayer.RED));
 	}
 	
 	@Test
@@ -101,7 +101,7 @@ public class TestLegalMoves {
 		
 		Move m = new Move(new Coordinate(0,4), new Coordinate(2,2), new Coordinate(4,0));
 		
-		assertTrue(b.isLegal(m));
+		assertTrue(b.isLegal(m, SelectingPlayer.RED));
 	}
 	
 	@Test
@@ -110,7 +110,7 @@ public class TestLegalMoves {
 		
 		Move m = new Move(new Coordinate(2,0), new Coordinate(0,2));
 		
-		assertFalse(b.isLegal(m));
+		assertFalse(b.isLegal(m, SelectingPlayer.RED));
 	}
 	
 	@Test
@@ -119,7 +119,7 @@ public class TestLegalMoves {
 		
 		Move m = new Move(new Coordinate(2,0), new Coordinate(0,2));
 		
-		assertTrue(b.isLegal(m));
+		assertTrue(b.isLegal(m, SelectingPlayer.RED));
 	}
 	
 	@Test
@@ -128,7 +128,7 @@ public class TestLegalMoves {
 		
 		Move m = new Move(new Coordinate(0,2), new Coordinate(2,0), new Coordinate(4,2));
 		
-		assertFalse(b.isLegal(m));
+		assertFalse(b.isLegal(m, SelectingPlayer.RED));
 	}
 	
 	@Test
@@ -137,7 +137,7 @@ public class TestLegalMoves {
 		
 		Move m = new Move(new Coordinate(0,2), new Coordinate(2,0), new Coordinate(4,2));
 		
-		assertTrue(b.isLegal(m));
+		assertTrue(b.isLegal(m, SelectingPlayer.RED));
 	}
 	
 	@Test
@@ -146,7 +146,7 @@ public class TestLegalMoves {
 		
 		Move m = new Move(new Coordinate(0,2), new Coordinate(2,0));
 		
-		assertFalse(b.isLegal(m));
+		assertFalse(b.isLegal(m, SelectingPlayer.RED));
 	}
 	
 	@Test
@@ -155,7 +155,7 @@ public class TestLegalMoves {
 		
 		Move m = new Move(new Coordinate(4,4), new Coordinate(2,2), new Coordinate(0,0));
 		
-		assertFalse(b.isLegal(m));
+		assertFalse(b.isLegal(m, SelectingPlayer.RED));
 	}
 	
 	@Test
@@ -165,7 +165,27 @@ public class TestLegalMoves {
 		
 		Move m = new Move(new Coordinate(4,4), new Coordinate(2,2));
 		
-		assertTrue(b.isLegal(m));
+		assertTrue(b.isLegal(m, SelectingPlayer.RED));
+	}
+	
+	@Test
+	public void testWrongSelectingPlayerRed(){
+		Board b = Board.boardFromString("nn\nrn");
+		
+		Move m = new Move(new Coordinate(0,1), new Coordinate(1,0));
+		
+		assertFalse(b.isLegal(m, SelectingPlayer.BLACK));
+		assertTrue(b.isLegal(m,  SelectingPlayer.RED));
+	}
+	
+	@Test
+	public void testWrongSelectingPlayerBlack(){
+		Board b = Board.boardFromString("bn\nnn");
+		
+		Move m = new Move(new Coordinate(0,0), new Coordinate(1,1));
+		
+		assertTrue(b.isLegal(m, SelectingPlayer.BLACK));
+		assertFalse(b.isLegal(m,  SelectingPlayer.RED));
 	}
 	
 

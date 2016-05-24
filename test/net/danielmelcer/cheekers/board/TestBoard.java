@@ -70,7 +70,7 @@ public class TestBoard {
 		
 		Move m = new Move(c1,c2);
 		
-		b = b.makeMove(m);
+		b = b.makeMove(m, SelectingPlayer.BLACK);
 		
 		Board expected = Board.boardFromString("nB\nnn");
 		
@@ -84,7 +84,7 @@ public class TestBoard {
 		
 		Move m = new Move(new Coordinate(0,1), new Coordinate(1,0));
 		
-		Board newBoard = b.makeMove(m);
+		Board newBoard = b.makeMove(m, SelectingPlayer.BLACK);
 		
 		assertFalse(b.contentsEqual(newBoard));
 		
@@ -185,7 +185,7 @@ public class TestBoard {
 		
 		Move m = new Move(new Coordinate(0,1), new Coordinate(1,0));
 		
-		Board newBoard = b.makeMove(m);
+		Board newBoard = b.makeMove(m, SelectingPlayer.BLACK);
 		
 		assertTrue(newBoard.undoMoveAvailable());
 		

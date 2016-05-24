@@ -112,13 +112,25 @@ public class Board {
 	/**
 	 * Check if a move is legal in the context of this board
 	 * @param move The move to check if legal
+	 * @param sp TODO
 	 * @return A boolean value indicating if a given move is legal
 	 */
-	public boolean isLegal(Move move){
+	public boolean isLegal(Move move, SelectingPlayer sp){
 		Iterator<Coordinate> m = move.iterator();
 		
 		Coordinate starting = m.next();
 		PieceType piece = this.getPieceAtCoordinate(starting);
+		
+		
+		switch(sp){
+		case RED:
+			if(piece==PieceType.BLACK_KING||piece==PieceType.BLACK) return false;
+			break;
+		case BLACK:
+			if(piece==PieceType.RED||piece==PieceType.RED_KING) return false;
+			break;
+		}
+		
 		
 		boolean[][] jumpedPieces = new boolean[board.length][board[0].length];
 		
@@ -188,10 +200,11 @@ public class Board {
 	/**
 	 * Returns a board with the move
 	 * @param move The move to check if legal
+	 * @param player TODO
 	 * @return A modified board where the move has been performed
 	 */
-	public Board makeMove(Move move){
-		if(!isLegal(move)){
+	public Board makeMove(Move move, SelectingPlayer player){
+		if(!isLegal(move, player)){
 			throw new IllegalArgumentException("Move is not legal");
 		}
 		
@@ -200,6 +213,7 @@ public class Board {
 		PieceType[][] newBoard = this.getBoard();
 		
 		Coordinate InitCoord = it.next();
+		
 		
 		int pieceX = InitCoord.getX();
 		int pieceY = InitCoord.getY();

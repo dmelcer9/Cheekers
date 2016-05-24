@@ -4,10 +4,15 @@ import java.util.concurrent.CountDownLatch;
 
 import net.danielmelcer.cheekers.board.Move;
 
+/**
+ * An implementation of Player that gets its moves from a GUIBoard.
+ * @author Daniel Melcer
+ * @see GUIBoard
+ */
 public class HumanPlayer implements Player {
 
-	CountDownLatch moveSubmitted;
-	Move moveToGet;
+	private CountDownLatch moveSubmitted;
+	private Move moveToGet;
 	
 	@Override
 	public Move requestMove(GameController gc) {

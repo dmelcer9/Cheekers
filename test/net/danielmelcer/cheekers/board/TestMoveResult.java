@@ -14,7 +14,7 @@ public class TestMoveResult {
 				+ "nBnn\n"
 				+ "nnnn");
 		
-		Board result = b.makeMove(new Move(new Coordinate(1,2), new Coordinate(2,3)));
+		Board result = b.makeMove(new Move(new Coordinate(1,2), new Coordinate(2,3)), SelectingPlayer.BLACK);
 		
 		Board expected = Board.boardFromString(
 				"nnnn\n"
@@ -29,7 +29,7 @@ public class TestMoveResult {
 	public void testKingBackwardsMove() {
 		Board b = Board.boardFromString("nnnn\nnnnn\nnBnn\nnnnn");
 		
-		Board result = b.makeMove(new Move(new Coordinate(1,2), new Coordinate(2,1)));
+		Board result = b.makeMove(new Move(new Coordinate(1,2), new Coordinate(2,1)), SelectingPlayer.BLACK);
 		
 		Board expected = Board.boardFromString("nnnn\nnnBn\nnnnn\nnnnn");
 		
@@ -40,7 +40,7 @@ public class TestMoveResult {
 	public void testJump() {
 		Board b = Board.boardFromString("nnnn\nnnrn\nnBnn\nnnnn");
 		
-		Board result = b.makeMove(new Move(new Coordinate(1,2), new Coordinate(3,0)));
+		Board result = b.makeMove(new Move(new Coordinate(1,2), new Coordinate(3,0)), SelectingPlayer.BLACK);
 		
 		Board expected = Board.boardFromString("nnnB\nnnnn\nnnnn\nnnnn");
 		
@@ -51,7 +51,7 @@ public class TestMoveResult {
 	public void testMultiJump() {
 		Board b = Board.boardFromString("nnnnn\nnBnnn\nnnnnn\nnnnbn\nnnnnR");
 		
-		Board result = b.makeMove(new Move(new Coordinate(4,4), new Coordinate(2,2), new Coordinate(0,0)));
+		Board result = b.makeMove(new Move(new Coordinate(4,4), new Coordinate(2,2), new Coordinate(0,0)), SelectingPlayer.RED);
 		
 		Board expected = Board.boardFromString("Rnnnn\nnnnnn\nnnnnn\nnnnnn\nnnnnn");
 		
@@ -62,7 +62,7 @@ public class TestMoveResult {
 	public void testRedPieceIsKinged() {
 		Board b = Board.boardFromString("nn\nrn");
 		
-		Board result = b.makeMove(new Move(new Coordinate(0,1), new Coordinate(1,0)));
+		Board result = b.makeMove(new Move(new Coordinate(0,1), new Coordinate(1,0)), SelectingPlayer.RED);
 		
 		Board expected = Board.boardFromString("nR\nnn");
 		
@@ -73,7 +73,7 @@ public class TestMoveResult {
 	public void testBlackPieceKinged() {
 		Board b = Board.boardFromString("nb\nnn");
 		
-		Board result = b.makeMove(new Move(new Coordinate(1,0), new Coordinate(0,1)));
+		Board result = b.makeMove(new Move(new Coordinate(1,0), new Coordinate(0,1)), SelectingPlayer.BLACK);
 		
 		Board expected = Board.boardFromString("nn\nBn");
 		
@@ -84,7 +84,7 @@ public class TestMoveResult {
 	public void testKingedAfterJump() {
 		Board b = Board.boardFromString("bnn\nnrn\nnnn");
 		
-		Board result = b.makeMove(new Move(new Coordinate(0,0), new Coordinate(2,2)));
+		Board result = b.makeMove(new Move(new Coordinate(0,0), new Coordinate(2,2)), SelectingPlayer.BLACK);
 		
 		Board expected = Board.boardFromString("nnn\nnnn\nnnB");
 		
@@ -95,7 +95,7 @@ public class TestMoveResult {
 	public void testKingedAfterMultiJump() {
 		Board b = Board.boardFromString("nnnnn\nnbnnn\nnnnnn\nnnnbn\nnnnnr");
 		
-		Board result = b.makeMove(new Move(new Coordinate(4,4), new Coordinate(2,2), new Coordinate(0,0)));
+		Board result = b.makeMove(new Move(new Coordinate(4,4), new Coordinate(2,2), new Coordinate(0,0)), SelectingPlayer.RED);
 		
 		Board expected = Board.boardFromString("Rnnnn\nnnnnn\nnnnnn\nnnnnn\nnnnnn");
 		
