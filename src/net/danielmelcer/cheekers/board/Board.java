@@ -105,8 +105,7 @@ public class Board {
 	 * @return A board with the standard starting position of checkers
 	 */
 	public static Board getDefaultBoard(){
-		//TODO: Implement
-		return null;
+		return Board.boardFromString("bnbnbnbn\nnbnbnbnb\nbnbnbnbn\nnnnnnnnn\nnnnnnnnn\nnrnrnrnr\nrnrnrnrn\nnrnrnrnr");
 	}
 	
 	/**
