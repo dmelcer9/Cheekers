@@ -1,6 +1,7 @@
 package net.danielmelcer.cheekers.game;
 
 import java.awt.*;
+import java.awt.event.*;
 
 import javax.swing.*;
 
@@ -23,6 +24,7 @@ public class GUIBoard extends JFrame {
 	
 	private JButton colorButton;
 	private JButton submitButton;
+	private JButton resetMoveButton;
 	
 	public GUIBoard(Board b){
 		super("Cheekers!");
@@ -69,11 +71,18 @@ public class GUIBoard extends JFrame {
 		c.gridy=2;
 		mainPanel.add(filler,c);
 		
+		resetMoveButton = new JButton("Reset Move");
+		c.gridheight = 1;
+		c.weighty = 0.05;
+		c.gridy=3;
+		mainPanel.add(resetMoveButton,c);
+		resetMoveButton.addActionListener((e)->bd.resetMoveNums());
+		
 		submitButton = new JButton("Submit move");
 		submitButton.setToolTipText("Submits the move.");
-		c.gridheight = 2;
+		c.gridheight = 1;
 		c.weighty = 0.1;
-		c.gridy = 3;
+		c.gridy = 4;
 		c.anchor = GridBagConstraints.CENTER;
 		mainPanel.add(submitButton, c);
 		
@@ -95,23 +104,93 @@ public class GUIBoard extends JFrame {
 	 * @param c The color to set
 	 */
 	public void setColor(Color c){
-		
+		colorButton.setBackground(c);
 	}
 	
 	private class BoardDisplay extends JComponent{
 		
-		private volatile Board currentBoard;
+		private volatile PieceType[][] currentBoard;
+		private volatile int[][] moveNums;
+		private int clickCount = 0;
 		
 		BoardDisplay(Board b){
-			this.currentBoard = b;
+			this.currentBoard = b.getBoard();
+			this.moveNums = new int[8][8];
+			this.addMouseListener(new MouseAdapter(){
+				@Override public void mouseClicked(MouseEvent e){
+					BoardDisplay.this.processClick(e);
+				}
+			});
+		}
+		
+		private void processClick(MouseEvent e){
+			int width = this.getSize().width;
+			int height = this.getSize().height;
+			
+			int gridx = (int) (e.getX()/((double)width/8));
+			int gridy = (int) (e.getY()/((double)height/8));
+			
+			if(gridx > 7 || gridy>7) return;
+			if(gridx < 0 || gridy < 0) return;
+			
+			if(moveNums[gridy][gridx] == 0) moveNums[gridy][gridx] = ++clickCount;
+			this.repaint();
+		}
+		
+		public void resetMoveNums(){
+			moveNums = new int[8][8];
+			clickCount = 0;
+			this.repaint();
 		}
 		
 		public void setBoard(Board b){
-			currentBoard = b;
-			this.invalidate();
+			currentBoard = b.getBoard();
+			this.repaint();
 		}
 		
+	
+		
 		@Override public void paint(Graphics g){
+			int width = this.getSize().width;
+			int height = this.getSize().height;
+			float[] c = Color.RGBtoHSB(255,228,270, null);
+			g.setColor(new Color(209,139,71));
+			g.fillRect(0, 0, width, height);
+			
+			
+			int xSize = width/8;
+			int ySize = height/8;
+			
+			for(int x = 0; x<8; x++){
+				for(int y = 0; y<8; y++){
+					int xpos = (width*x)/8;
+					int ypos = (height*y)/8;
+					if((x+y)%2==0){
+						g.setColor(new Color(255,228,170));
+						g.fillRect(xpos, ypos, xSize, ySize);
+					}
+					if(moveNums[y][x]!=0){
+						g.setColor(new Color(0,0,0));
+						g.drawString(moveNums[y][x]+"", xpos, ypos+12);
+					}
+					PieceType curPiece = currentBoard[y][x];
+					if(curPiece == PieceType.BLACK || curPiece == PieceType.BLACK_KING){
+						g.setColor(new Color(0,0,0));
+						g.fillOval(xpos, ypos, xSize, ySize);
+					}
+					if(curPiece == PieceType.RED || curPiece == PieceType.RED_KING){
+						g.setColor(new Color(255,0,0));
+						g.fillOval(xpos, ypos, xSize, ySize);
+					}
+					if(curPiece == PieceType.BLACK_KING || curPiece == PieceType.RED_KING){
+						int thirdX = xSize/3;
+						int thirdY = ySize/3;
+						g.fillOval(xpos + thirdX, ypos + thirdY, thirdX, thirdY);
+					}
+					
+				}
+			}
+			
 			
 		}
 	}
