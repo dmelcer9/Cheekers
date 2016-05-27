@@ -2,6 +2,8 @@ package net.danielmelcer.cheekers.game;
 
 import java.awt.Color;
 
+import javax.swing.JOptionPane;
+
 import net.danielmelcer.cheekers.board.*;
 
 /**
@@ -52,8 +54,27 @@ public class GameController {
 	 * This method starts the game and calls the relevant methods of the Player objects
 	 */
 	public void startGame(){
+		gui.setVisible(true);
+		SelectingPlayer currentPlayer = SelectingPlayer.RED;
 		while(currentBoard.getWinState() == WinState.NEITHER_WIN){
-			//TODO
+			Move m;
+			if(currentPlayer == SelectingPlayer.RED){
+				setColor(Color.red);
+				m = player1.requestMove(this);
+			} else {
+				setColor(Color.black);
+				m = player2.requestMove(this);
+			}
+			
+			if(currentBoard.isLegal(m, currentPlayer)){
+				MakeMove(m, currentPlayer);
+				gui.updateBoard(currentBoard);
+				currentPlayer = currentPlayer.invert();
+			} else{
+				JOptionPane.showMessageDialog(null, "Move is not legal. Select again.");
+			}
+			gui.repaint();
+			
 		}
 	}
 	

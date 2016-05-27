@@ -19,9 +19,17 @@ public class Move implements Iterable<Coordinate>{
 	 * @param coordinates A list of coordinates involved in the move, starting with the initial position.
 	 */
 	public Move(Coordinate... coordinates){
-		if(coordinates.length < 2) throw new IllegalArgumentException("Moves must have a length of greater than two");
+		//if(coordinates.length < 2) throw new IllegalArgumentException("Moves must have a length of greater than two");
 		
 		this.coordinates = coordinates;	
+	}
+	
+	/**
+	 * Returns the length of the move
+	 * @return The number of coordinates
+	 */
+	public int getLength(){
+		return coordinates.length;
 	}
 	
 	/**

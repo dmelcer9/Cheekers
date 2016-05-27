@@ -81,6 +81,7 @@ public class GUIBoard extends JFrame {
 		
 		submitButton = new JButton("Submit move");
 		submitButton.setToolTipText("Submits the move.");
+		submitButton.addActionListener(e->ml.MoveSelected(bd.getMove()));
 		c.gridheight = 1;
 		c.weighty = 0.1;
 		c.gridy = 4;
@@ -90,6 +91,14 @@ public class GUIBoard extends JFrame {
 		this.add(mainPanel);
 		this.setVisible(true);
 		
+	}
+	
+	/**
+	 * Update the BoardDisplay with the selected board
+	 * @param b The board to display
+	 */
+	public void updateBoard(Board b){
+		bd.setBoard(b);
 	}
 	
 	/**

@@ -117,8 +117,11 @@ public class Board {
 	public boolean isLegal(Move move, SelectingPlayer sp){
 		Iterator<Coordinate> m = move.iterator();
 		
+		if(move.getLength() <2) return false;
 		Coordinate starting = m.next();
 		PieceType piece = this.getPieceAtCoordinate(starting);
+		
+		if(piece == PieceType.NONE) return false;
 		
 		
 		switch(sp){

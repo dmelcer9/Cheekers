@@ -1,26 +1,31 @@
 package net.danielmelcer.cheekers.game;
 
 import java.awt.Color;
+
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JComponent;
 
-import net.danielmelcer.cheekers.board.Board;
-import net.danielmelcer.cheekers.board.PieceType;
+import net.danielmelcer.cheekers.board.*;
+
 
 /**
  * A JComponent that displays a board
  * @author Daniel Melcer
  * @see GUIBoard
  */
-class BoardDisplay extends JComponent{
+public class BoardDisplay extends JComponent{
 	
 	private volatile PieceType[][] currentBoard;
 	private volatile int[][] moveNums;
 	private int clickCount = 0;
 	
+	/**
+	 * Constructs a BoardDisplay with the specified Board
+	 * @param b The board to display
+	 */
 	BoardDisplay(Board b){
 		this.currentBoard = b.getBoard();
 		this.moveNums = new int[8][8];
@@ -29,6 +34,26 @@ class BoardDisplay extends JComponent{
 				BoardDisplay.this.processClick(e);
 			}
 		});
+	}
+	
+	/**
+	 * Gets the Move selected by the user and resets the move numbers
+	 * @return The move the user selects
+	 */
+	public Move getMove(){
+		Coordinate[] coordinates = new Coordinate[clickCount];
+		for(int y = 0; y < 8; y++){
+			for(int x = 0; x<8; x++){
+				if(moveNums[y][x] != 0){
+					coordinates[moveNums[y][x]-1] = new Coordinate(x,y);
+				}
+			}
+		}
+		
+		resetMoveNums();
+		this.repaint();
+		return new Move(coordinates);
+		
 	}
 	
 	private void processClick(MouseEvent e){
@@ -45,14 +70,22 @@ class BoardDisplay extends JComponent{
 		this.repaint();
 	}
 	
+	/**
+	 * Deselects the currently selected move
+	 */
 	public void resetMoveNums(){
 		moveNums = new int[8][8];
 		clickCount = 0;
 		this.repaint();
 	}
 	
+	/**
+	 * Updates the currently displayed board
+	 * @param b The new board
+	 */
 	public void setBoard(Board b){
 		currentBoard = b.getBoard();
+		resetMoveNums();
 		this.repaint();
 	}
 	
