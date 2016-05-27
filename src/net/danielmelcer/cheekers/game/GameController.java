@@ -76,6 +76,20 @@ public class GameController {
 			gui.repaint();
 			
 		}
+		
+		switch(currentBoard.getWinState()){
+		case RED_WIN:
+			JOptionPane.showMessageDialog(null, "Red wins the game!");
+			break;
+		case BLACK_WIN:
+			JOptionPane.showMessageDialog(null, "Black wins the game!");
+			break;
+		default:
+			JOptionPane.showMessageDialog(null, "Board is empty.");
+			break;
+		}
+		
+		gui.dispose();
 	}
 	
 	/**
