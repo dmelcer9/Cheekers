@@ -78,8 +78,11 @@ public class Launcher extends JFrame {
 		btnStartGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				gc = new GameController(Board.getDefaultBoard(), new HumanPlayer(), new HumanPlayer(), new GUIBoard(Board.getDefaultBoard()));
-				Thread t = new Thread(gc::startGame);
-				t.start();
+				gameThread = new Thread(()->{
+					gc.startGame();
+					buttonEndGame();
+				});
+				gameThread.start();
 				buttonStartGame();
 			}
 		});
@@ -102,6 +105,8 @@ public class Launcher extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				gameThread.interrupt();
 				gc.getGui().dispose();
+				buttonEndGame();
+				
 			}
 		});
 		btnStopCurrentGame.setEnabled(false);
@@ -117,4 +122,6 @@ public class Launcher extends JFrame {
 		btnStartGame.setEnabled(true);
 		btnStopCurrentGame.setEnabled(false);
 	}
+	
+	
 }

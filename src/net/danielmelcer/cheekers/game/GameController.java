@@ -58,6 +58,7 @@ public class GameController {
 		SelectingPlayer currentPlayer = SelectingPlayer.RED;
 		while(currentBoard.getWinState() == WinState.NEITHER_WIN){
 			Move m;
+			try{
 			if(currentPlayer == SelectingPlayer.RED){
 				setColor(Color.red);
 				m = player1.requestMove(this);
@@ -74,7 +75,9 @@ public class GameController {
 				JOptionPane.showMessageDialog(null, "Move is not legal. Select again.");
 			}
 			gui.repaint();
-			
+			}catch(InterruptedException e){
+				break;
+			}
 		}
 		
 		switch(currentBoard.getWinState()){
@@ -84,8 +87,10 @@ public class GameController {
 		case BLACK_WIN:
 			JOptionPane.showMessageDialog(null, "Black wins the game!");
 			break;
-		default:
+		case EMPTY:
 			JOptionPane.showMessageDialog(null, "Board is empty.");
+			break;
+		case NEITHER_WIN:
 			break;
 		}
 		

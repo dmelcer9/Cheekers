@@ -16,7 +16,8 @@ public interface Player {
 	 * Request a move from the player
 	 * @param gc The GameController making the request
 	 * @return The requested move
+	 * @throws InterruptedException If the game is interrupted
 	 */
-	public Move requestMove(GameController gc);
+	public Move requestMove(GameController gc) throws InterruptedException;
 	
 }

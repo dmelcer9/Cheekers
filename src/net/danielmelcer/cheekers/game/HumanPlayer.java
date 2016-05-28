@@ -19,15 +19,11 @@ public class HumanPlayer implements Player {
 	 * @param gc The GameController that is requesting the move
 	 */
 	@Override
-	public Move requestMove(GameController gc) {
+	public Move requestMove(GameController gc) throws InterruptedException{
 		moveSubmitted = new CountDownLatch(1);
 		gc.getGui().setMoveListener(this::receiveMove);
-		try {
-			moveSubmitted.await();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		moveSubmitted.await();
 		
 		return moveToGet;
 	}
