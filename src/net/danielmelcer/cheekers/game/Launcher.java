@@ -7,11 +7,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.factories.FormFactory;
-
 import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
 
@@ -59,20 +54,33 @@ public class Launcher extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("default:grow"),
-				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("default:grow"),
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[]{418, 0};
+		gbl_contentPane.rowHeights = new int[]{108, 103, 23, 0};
+		gbl_contentPane.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		contentPane.setLayout(gbl_contentPane);
+		
+		btnStopCurrentGame = new JButton("Stop Current Game");
+		btnStopCurrentGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gameThread.interrupt();
+				gc.getGui().dispose();
+				buttonEndGame();
+				
+			}
+		});
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Local Game", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), "Local Game", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		contentPane.add(panel, "2, 2, fill, fill");
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.weighty = 0.5;
+		gbc_panel.weightx = 1.0;
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.insets = new Insets(0, 0, 5, 0);
+		gbc_panel.gridx = 0;
+		gbc_panel.gridy = 0;
+		contentPane.add(panel, gbc_panel);
 		
 		btnStartGame = new JButton("Start Game");
 		btnStartGame.addActionListener(new ActionListener() {
@@ -90,7 +98,13 @@ public class Launcher extends JFrame {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "Network Game", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		contentPane.add(panel_1, "2, 4, fill, fill");
+		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+		gbc_panel_1.weighty = 0.5;
+		gbc_panel_1.fill = GridBagConstraints.BOTH;
+		gbc_panel_1.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_1.gridx = 0;
+		gbc_panel_1.gridy = 1;
+		contentPane.add(panel_1, gbc_panel_1);
 		
 		btnHostGame = new JButton("Host Game");
 		btnHostGame.setEnabled(false);
@@ -99,18 +113,13 @@ public class Launcher extends JFrame {
 		btnJoinGame = new JButton("Join Game");
 		btnJoinGame.setEnabled(false);
 		panel_1.add(btnJoinGame);
-		
-		btnStopCurrentGame = new JButton("Stop Current Game");
-		btnStopCurrentGame.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				gameThread.interrupt();
-				gc.getGui().dispose();
-				buttonEndGame();
-				
-			}
-		});
 		btnStopCurrentGame.setEnabled(false);
-		contentPane.add(btnStopCurrentGame, "2, 6");
+		GridBagConstraints gbc_btnStopCurrentGame = new GridBagConstraints();
+		gbc_btnStopCurrentGame.anchor = GridBagConstraints.NORTH;
+		gbc_btnStopCurrentGame.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnStopCurrentGame.gridx = 0;
+		gbc_btnStopCurrentGame.gridy = 2;
+		contentPane.add(btnStopCurrentGame, gbc_btnStopCurrentGame);
 	}
 	
 	private void buttonStartGame(){
