@@ -65,6 +65,7 @@ public class Launcher extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				gameThread.interrupt();
 				gc.getGui().dispose();
+				gc.cleanUp();
 				buttonEndGame();
 				
 			}

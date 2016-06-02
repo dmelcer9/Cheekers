@@ -20,4 +20,11 @@ public interface Player {
 	 */
 	public Move requestMove(GameController gc) throws InterruptedException;
 	
+	/**
+	 * Performs cleanup actions after the game finishes or is stopped
+	 */
+	public default void cleanUp(){
+		
+	}
+	
 }

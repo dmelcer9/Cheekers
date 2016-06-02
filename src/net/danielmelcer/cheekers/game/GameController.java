@@ -51,6 +51,14 @@ public class GameController {
 	}
 	
 	/**
+	 * Calls the cleanUp methods for each player
+	 */
+	public void cleanUp(){
+		player1.cleanUp();
+		player2.cleanUp();
+	}
+	
+	/**
 	 * This method starts the game and calls the relevant methods of the Player objects
 	 */
 	public void startGame(){
