@@ -21,8 +21,8 @@ public class GameController {
 	/**
 	 * Construct a GameController with the indicated parameters
 	 * @param startingBoard The starting configuration of the board. 
-	 * @param p1 The red player
-	 * @param p2 The black player
+	 * @param red The red player
+	 * @param black The black player
 	 * @param gui The instance of GUIBoard to use
 	 */
 	public GameController(Board startingBoard, Player red, Player black, GUIBoard gui){

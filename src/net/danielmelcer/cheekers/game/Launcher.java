@@ -6,15 +6,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
-
 import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
 
 import net.danielmelcer.cheekers.board.Board;
 
 import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
+
 
 public class Launcher extends JFrame {
 
@@ -71,6 +70,7 @@ public class Launcher extends JFrame {
 			}
 		});
 		
+		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Local Game", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), "Local Game", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel = new GridBagConstraints();
@@ -86,12 +86,18 @@ public class Launcher extends JFrame {
 		btnStartGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				gc = new GameController(Board.getDefaultBoard(), new HumanPlayer(), new HumanPlayer(), new GUIBoard(Board.getDefaultBoard()));
+				gc.getGui().addWindowListener(new WindowAdapter(){
+					@Override public void windowClosing(WindowEvent e){
+						Launcher.this.btnStopCurrentGame.doClick();
+					}
+				});
 				gameThread = new Thread(()->{
 					gc.startGame();
 					buttonEndGame();
 				});
 				gameThread.start();
 				buttonStartGame();
+				
 			}
 		});
 		panel.add(btnStartGame);
