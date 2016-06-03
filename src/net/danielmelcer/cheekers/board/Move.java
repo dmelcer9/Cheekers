@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
  * 
  * @see Coordinate
  */
-public class Move implements Iterable<Coordinate>{
+public class Move implements Iterable<Coordinate>, java.io.Serializable{
 	
 	
 	private Coordinate[] coordinates;
