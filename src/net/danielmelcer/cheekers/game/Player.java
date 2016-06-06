@@ -2,9 +2,6 @@ package net.danielmelcer.cheekers.game;
 
 import net.danielmelcer.cheekers.board.*;
 
-import java.util.*;
-import java.util.concurrent.*;
-
 /**
  * The Player interface allows a GameController to request a move from a player
  * @author Daniel Melcer

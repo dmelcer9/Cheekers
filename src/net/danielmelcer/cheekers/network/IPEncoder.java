@@ -69,6 +69,11 @@ public class IPEncoder {
 	 *
 	 */
 	public class InvalidIDException extends Exception{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -2959304652399881190L;
+
 		private InvalidIDException(String message){
 			super(message);
 		}

@@ -259,6 +259,8 @@ public class Board {
 		case BLACK:
 			if(c.getY() == (board.length-1)) return true;
 			break;
+		default:
+			return false;
 		}
 		
 		return false;
@@ -333,6 +335,9 @@ public class Board {
 					break;
 				case RED: case RED_KING:
 					hasRed = true;
+					break;
+				default:
+					//Do nothing
 					break;
 				}
 			}

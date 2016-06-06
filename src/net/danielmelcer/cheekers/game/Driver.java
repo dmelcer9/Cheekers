@@ -1,12 +1,13 @@
 package net.danielmelcer.cheekers.game;
 
-import net.danielmelcer.cheekers.board.Board;
 import javax.swing.*;
-import java.awt.event.*;
-import java.awt.*;
 
 public class Driver extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5012256356330536500L;
 	GameController currentGame;
 	Thread currentGameThread;
 	

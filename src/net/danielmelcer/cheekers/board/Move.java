@@ -12,6 +12,12 @@ import java.util.NoSuchElementException;
  */
 public class Move implements Iterable<Coordinate>, java.io.Serializable{
 	
+
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2889059177672563406L;
 	
 	private Coordinate[] coordinates;
 	/**

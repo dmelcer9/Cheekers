@@ -1,8 +1,6 @@
 package net.danielmelcer.cheekers.game;
 
 import java.awt.*;
-import java.awt.event.*;
-
 import javax.swing.*;
 
 import net.danielmelcer.cheekers.board.*;
@@ -15,6 +13,10 @@ import net.danielmelcer.cheekers.board.*;
  */
 public class GUIBoard extends JFrame {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5666037769829997576L;
 	private MoveListener ml;
 	private JPanel mainPanel;
 	private BoardDisplay bd;

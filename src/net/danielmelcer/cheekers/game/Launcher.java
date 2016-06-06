@@ -1,8 +1,12 @@
 package net.danielmelcer.cheekers.game;
 
 import java.awt.*;
+import java.util.concurrent.*;
+import java.io.IOException;
+import java.net.*;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
@@ -10,21 +14,37 @@ import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
 
 import net.danielmelcer.cheekers.board.Board;
+import net.danielmelcer.cheekers.network.*;
 
 import java.awt.Color;
 import java.awt.event.*;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
+
+import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 
 public class Launcher extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5479689304867941664L;
 	private JPanel contentPane;
 	private JButton btnStartGame;
-	private JButton btnHostGame;
-	private JButton btnJoinGame;
 	private JButton btnStopCurrentGame;
 	
 	private GameController gc;
 	private Thread gameThread;
+	private JPanel panel_2;
+	private JPanel panel_3;
+	private JLabel lblHostId;
+	private JLabel lblId;
+	private JTextField textField;
+	private JButton btnJoinGame;
 
 	/**
 	 * Launch the application.
@@ -104,7 +124,7 @@ public class Launcher extends JFrame {
 		panel.add(btnStartGame);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(null, "Network Game", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Network Game", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
 		gbc_panel_1.weighty = 0.5;
 		gbc_panel_1.fill = GridBagConstraints.BOTH;
@@ -112,14 +132,35 @@ public class Launcher extends JFrame {
 		gbc_panel_1.gridx = 0;
 		gbc_panel_1.gridy = 1;
 		contentPane.add(panel_1, gbc_panel_1);
+		panel_1.setLayout(new GridLayout(0, 2, 0, 0));
 		
-		btnHostGame = new JButton("Host Game");
-		btnHostGame.setEnabled(false);
-		panel_1.add(btnHostGame);
+		panel_2 = new JPanel();
+		panel_2.setBorder(new TitledBorder(null, "Host Game", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_1.add(panel_2);
+		
+		lblHostId = new JLabel("Host ID:");
+		panel_2.add(lblHostId);
+		
+		lblId = new JLabel("ID");
+		panel_2.add(lblId);
+		
+		try {
+			lblId.setText(new IPEncoder(Inet4Address.getLocalHost()).getStrRepresentation());
+		} catch (UnknownHostException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		panel_3 = new JPanel();
+		panel_3.setBorder(new TitledBorder(null, "Join Game", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_1.add(panel_3);
+		
+		textField = new JTextField();
+		panel_3.add(textField);
+		textField.setColumns(10);
 		
 		btnJoinGame = new JButton("Join Game");
-		btnJoinGame.setEnabled(false);
-		panel_1.add(btnJoinGame);
+		panel_3.add(btnJoinGame);
 		btnStopCurrentGame.setEnabled(false);
 		GridBagConstraints gbc_btnStopCurrentGame = new GridBagConstraints();
 		gbc_btnStopCurrentGame.anchor = GridBagConstraints.NORTH;
@@ -127,6 +168,37 @@ public class Launcher extends JFrame {
 		gbc_btnStopCurrentGame.gridx = 0;
 		gbc_btnStopCurrentGame.gridy = 2;
 		contentPane.add(btnStopCurrentGame, gbc_btnStopCurrentGame);
+		
+		//TODO
+		Thread t = new Thread(()->{
+			try(ServerSocket ss = new ServerSocket(41000)){
+				
+				Socket s = ss.accept();
+				Player red = new LocalNetPlayer(s);
+				Player black = new RemotePlayer(s);
+				
+				gc = new GameController(Board.getDefaultBoard(), red, black, new GUIBoard(Board.getDefaultBoard()));
+				gc.getGui().addWindowListener(new WindowAdapter(){
+					@Override public void windowClosing(WindowEvent e){
+						Launcher.this.btnStopCurrentGame.doClick();
+					}
+				});
+				gameThread = new Thread(()->{
+					gc.startGame();
+					buttonEndGame();
+				});
+				gameThread.start();
+				buttonStartGame();
+				
+				
+				throw new InterruptedException();
+			} catch(IOException e){
+				JOptionPane.showMessageDialog(null, "Error initializing network");
+			} catch(InterruptedException e){
+				//Do nothing
+			}
+			
+		});
 	}
 	
 	private void buttonStartGame(){

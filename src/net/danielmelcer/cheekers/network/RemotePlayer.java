@@ -7,10 +7,19 @@ import java.io.*;
 
 import javax.swing.JOptionPane;
 
+/**
+ * This class represents a player on the other side of a network.
+ * @author Daniel Melcer
+ *
+ */
 public class RemotePlayer implements Player {
 
-	Socket s;
+	private Socket s;
 	
+	/**
+	 * Constructs a RemotePlayer with the specified socket
+	 * @param s
+	 */
 	public RemotePlayer(Socket s){
 		this.s = s;
 	}

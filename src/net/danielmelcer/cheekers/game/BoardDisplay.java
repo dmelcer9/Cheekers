@@ -18,6 +18,10 @@ import net.danielmelcer.cheekers.board.*;
  */
 public class BoardDisplay extends JComponent{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7598192723973828059L;
 	private volatile PieceType[][] currentBoard;
 	private volatile int[][] moveNums;
 	private int clickCount = 0;
@@ -94,7 +98,7 @@ public class BoardDisplay extends JComponent{
 	@Override public void paint(Graphics g){
 		int width = this.getSize().width;
 		int height = this.getSize().height;
-		float[] c = Color.RGBtoHSB(255,228,270, null);
+		
 		g.setColor(new Color(209,139,71));
 		g.fillRect(0, 0, width, height);
 		
