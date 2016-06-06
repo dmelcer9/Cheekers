@@ -6,6 +6,8 @@ import net.danielmelcer.cheekers.game.*;
 import java.io.*;
 import java.net.*;
 
+import javax.swing.JOptionPane;
+
 /**
  * This class represents a Local Player on the network. After receiving the move from the GUI, it transmits the move across the network.
  * @author Daniel Melcer
@@ -34,10 +36,20 @@ public class LocalNetPlayer extends HumanPlayer {
 		try(ObjectOutputStream o = new ObjectOutputStream(s.getOutputStream())){
 			o.writeObject(m);
 		} catch(IOException e){
-			return null;
+			JOptionPane.showMessageDialog(null, "Network error!");
+			throw new InterruptedException("Network error");
 		}
 		
 		return m;
+	}
+	
+	@Override public void cleanUp(){
+		try {
+			s.close();
+		} catch (IOException e) {
+			//s is already closed
+			//No action needed
+		}
 	}
 
 }

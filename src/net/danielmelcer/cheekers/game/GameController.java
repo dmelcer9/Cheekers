@@ -75,6 +75,7 @@ public class GameController {
 				m = player2.requestMove(this);
 			}
 			
+			
 			if(currentBoard.isLegal(m, currentPlayer)){
 				MakeMove(m, currentPlayer);
 				gui.updateBoard(currentBoard);
