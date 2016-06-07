@@ -264,6 +264,9 @@ public class Launcher extends JFrame {
 		btnStartGame.setEnabled(true);
 		btnStopCurrentGame.setEnabled(false);
 		btnJoinGame.setEnabled(true);
+		
+		networkServerThread = new Thread(networkRunnable);
+		networkServerThread.start();
 	}
 	
 	

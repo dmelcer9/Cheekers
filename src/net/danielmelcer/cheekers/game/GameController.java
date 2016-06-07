@@ -81,7 +81,7 @@ public class GameController {
 				gui.updateBoard(currentBoard);
 				currentPlayer = currentPlayer.invert();
 			} else{
-				JOptionPane.showMessageDialog(null, "Move is not legal. Select again.");
+				new Thread(()->JOptionPane.showMessageDialog(null, "Move is not legal. Select again.")).start();
 			}
 			gui.repaint();
 			}catch(InterruptedException e){
