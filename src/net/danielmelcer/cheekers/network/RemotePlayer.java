@@ -15,21 +15,27 @@ import javax.swing.JOptionPane;
 public class RemotePlayer implements Player {
 
 	private Socket s;
+	ObjectInputStream ois;
 	
 	/**
 	 * Constructs a RemotePlayer with the specified socket
 	 * @param s
 	 */
-	public RemotePlayer(Socket s){
+	public RemotePlayer(Socket s) throws IOException{
 		this.s = s;
+		
+			ois = new ObjectInputStream(s.getInputStream());
+		
 	}
 	
 	
 	@Override
 	public Move requestMove(GameController gc) throws InterruptedException {
-		try(ObjectInputStream ois = new ObjectInputStream(s.getInputStream())){
+		try{
+			System.out.println("Inputting object");
 			return (Move) ois.readObject();
 		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Network error!");
 			throw new InterruptedException("Network error");
 		}

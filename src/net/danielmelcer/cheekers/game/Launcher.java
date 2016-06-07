@@ -15,6 +15,7 @@ import javax.swing.UIManager;
 
 import net.danielmelcer.cheekers.board.Board;
 import net.danielmelcer.cheekers.network.*;
+import net.danielmelcer.cheekers.network.IPEncoder.InvalidIDException;
 
 import java.awt.Color;
 import java.awt.event.*;
@@ -36,6 +37,7 @@ public class Launcher extends JFrame {
 	private JPanel contentPane;
 	private JButton btnStartGame;
 	private JButton btnStopCurrentGame;
+	private Thread networkServerThread;
 	
 	private GameController gc;
 	private Thread gameThread;
@@ -45,6 +47,38 @@ public class Launcher extends JFrame {
 	private JLabel lblId;
 	private JTextField textField;
 	private JButton btnJoinGame;
+	
+	
+	private ServerSocket ss;
+	
+	private Runnable networkRunnable = ()->{
+		try{
+			
+			System.out.println("Network Initialized");
+			Socket s = ss.accept();
+			Player red = new LocalNetPlayer(s);
+			Player black = new RemotePlayer(s);
+			
+			gc = new GameController(Board.getDefaultBoard(), red, black, new GUIBoard(Board.getDefaultBoard()));
+			gc.getGui().addWindowListener(new WindowAdapter(){
+				@Override public void windowClosing(WindowEvent e){
+					Launcher.this.btnStopCurrentGame.doClick();
+				}
+			});
+			gameThread = new Thread(()->{
+				gc.startGame();
+				buttonEndGame();
+			});
+			gameThread.start();
+			buttonStartGame();
+			
+			
+	
+		} catch(IOException e){
+			//JOptionPane.showMessageDialog(null, "Error initializing network");
+		} 
+		
+	};
 
 	/**
 	 * Launch the application.
@@ -67,6 +101,12 @@ public class Launcher extends JFrame {
 	 * Create the frame.
 	 */
 	public Launcher() {
+		try {
+			ss = new ServerSocket(41000);
+		} catch (IOException e2) {
+			JOptionPane.showMessageDialog(null, "Error initializing network");
+		}
+		
 		setTitle("Cheekers Launcher");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -160,6 +200,38 @@ public class Launcher extends JFrame {
 		textField.setColumns(10);
 		
 		btnJoinGame = new JButton("Join Game");
+		btnJoinGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String id = textField.getText();
+				try{
+					IPEncoder ip = new IPEncoder(id);
+					
+					try{
+						Socket s = new Socket(ip.getAddress(), 41000);
+						Player black = new LocalNetPlayer(s);
+						Player red = new RemotePlayer(s);
+						
+						gc = new GameController(Board.getDefaultBoard(), red, black, new GUIBoard(Board.getDefaultBoard()));
+						gc.getGui().addWindowListener(new WindowAdapter(){
+							@Override public void windowClosing(WindowEvent e){
+								Launcher.this.btnStopCurrentGame.doClick();
+							}
+						});
+						gameThread = new Thread(()->{
+							gc.startGame();
+							buttonEndGame();
+						});
+						gameThread.start();
+						buttonStartGame();
+					} catch (IOException e) {
+						JOptionPane.showMessageDialog(null, "Error with connection");
+					}
+				} catch(InvalidIDException e){
+					JOptionPane.showMessageDialog(null, "An Invalid ID was entered");
+				}
+				
+			}
+		});
 		panel_3.add(btnJoinGame);
 		btnStopCurrentGame.setEnabled(false);
 		GridBagConstraints gbc_btnStopCurrentGame = new GridBagConstraints();
@@ -169,46 +241,21 @@ public class Launcher extends JFrame {
 		gbc_btnStopCurrentGame.gridy = 2;
 		contentPane.add(btnStopCurrentGame, gbc_btnStopCurrentGame);
 		
-		//TODO
-		Thread t = new Thread(()->{
-			try(ServerSocket ss = new ServerSocket(41000)){
-				
-				Socket s = ss.accept();
-				Player red = new LocalNetPlayer(s);
-				Player black = new RemotePlayer(s);
-				
-				gc = new GameController(Board.getDefaultBoard(), red, black, new GUIBoard(Board.getDefaultBoard()));
-				gc.getGui().addWindowListener(new WindowAdapter(){
-					@Override public void windowClosing(WindowEvent e){
-						Launcher.this.btnStopCurrentGame.doClick();
-					}
-				});
-				gameThread = new Thread(()->{
-					gc.startGame();
-					buttonEndGame();
-				});
-				gameThread.start();
-				buttonStartGame();
-				
-				
-				throw new InterruptedException();
-			} catch(IOException e){
-				JOptionPane.showMessageDialog(null, "Error initializing network");
-			} catch(InterruptedException e){
-				//Do nothing
-			}
-			
-		});
+		networkServerThread = new Thread(networkRunnable);
+		networkServerThread.start();
 	}
 	
 	private void buttonStartGame(){
 		btnStartGame.setEnabled(false);
 		btnStopCurrentGame.setEnabled(true);
+		
 	}
 	
 	private void buttonEndGame(){
+		
 		btnStartGame.setEnabled(true);
 		btnStopCurrentGame.setEnabled(false);
+		
 	}
 	
 	

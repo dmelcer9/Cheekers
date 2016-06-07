@@ -16,13 +16,15 @@ import javax.swing.JOptionPane;
 public class LocalNetPlayer extends HumanPlayer {
 
 	private final Socket s;
+	ObjectOutputStream o;
 	
 	/**
 	 * Constructs a LocalNetPlayer with a socket
 	 * @param s The socket to use
 	 */
-	public LocalNetPlayer(Socket s){
+	public LocalNetPlayer(Socket s) throws IOException{
 		this.s = s;
+		 o = new ObjectOutputStream(s.getOutputStream());
 	}
 	
 	/**
@@ -33,9 +35,11 @@ public class LocalNetPlayer extends HumanPlayer {
 	public Move requestMove(GameController gc) throws InterruptedException {
 		Move m = super.requestMove(gc);
 		
-		try(ObjectOutputStream o = new ObjectOutputStream(s.getOutputStream())){
+		try{
+			System.out.println("Outputting object");
 			o.writeObject(m);
 		} catch(IOException e){
+			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Network error!");
 			throw new InterruptedException("Network error");
 		}

@@ -1,5 +1,7 @@
 package net.danielmelcer.cheekers.board;
 
+import java.io.Serializable;
+
 
 /**
  * 
@@ -8,7 +10,7 @@ package net.danielmelcer.cheekers.board;
  * @author Daniel Melcer
  *
  */
-public class Coordinate {
+public class Coordinate implements Serializable {
 	
 	private int x;
 	private int y;

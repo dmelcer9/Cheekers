@@ -83,7 +83,9 @@ public class GUIBoard extends JFrame {
 		
 		submitButton = new JButton("Submit move");
 		submitButton.setToolTipText("Submits the move.");
-		submitButton.addActionListener(e->ml.MoveSelected(bd.getMove()));
+		submitButton.addActionListener(e->{
+			if(ml != null)ml.MoveSelected(bd.getMove());
+		});
 		c.gridheight = 1;
 		c.weighty = 0.1;
 		c.gridy = 4;
