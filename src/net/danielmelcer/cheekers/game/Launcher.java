@@ -79,6 +79,8 @@ public class Launcher extends JFrame {
 		} 
 		
 	};
+	private JLabel lbltheHostIs;
+	private JLabel lbltheClientIs;
 
 	/**
 	 * Launch the application.
@@ -186,6 +188,9 @@ public class Launcher extends JFrame {
 		
 		try {
 			lblId.setText(new IPEncoder(Inet4Address.getLocalHost()).getStrRepresentation());
+			
+			lbltheHostIs = new JLabel("(The host is red)");
+			panel_2.add(lbltheHostIs);
 		} catch (UnknownHostException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -233,6 +238,9 @@ public class Launcher extends JFrame {
 			}
 		});
 		panel_3.add(btnJoinGame);
+		
+		lbltheClientIs = new JLabel("(The client is black)");
+		panel_3.add(lbltheClientIs);
 		btnStopCurrentGame.setEnabled(false);
 		GridBagConstraints gbc_btnStopCurrentGame = new GridBagConstraints();
 		gbc_btnStopCurrentGame.anchor = GridBagConstraints.NORTH;
@@ -248,14 +256,14 @@ public class Launcher extends JFrame {
 	private void buttonStartGame(){
 		btnStartGame.setEnabled(false);
 		btnStopCurrentGame.setEnabled(true);
-		
+		btnJoinGame.setEnabled(false);
 	}
 	
 	private void buttonEndGame(){
 		
 		btnStartGame.setEnabled(true);
 		btnStopCurrentGame.setEnabled(false);
-		
+		btnJoinGame.setEnabled(true);
 	}
 	
 	
