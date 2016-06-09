@@ -12,12 +12,12 @@ import static org.hamcrest.CoreMatchers.*;
 public class TestMove {
 	
 	
-	@Test(expected=IllegalArgumentException.class)
+	@Test
 	public void testNoMove(){
 		Move m = new Move();
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
+	@Test
 	public void testOneMove(){
 		Move m = new Move(new Coordinate(1,1));
 	}
