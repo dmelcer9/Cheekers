@@ -19,7 +19,8 @@ public class RemotePlayer implements Player {
 	
 	/**
 	 * Constructs a RemotePlayer with the specified socket
-	 * @param s
+	 * @param s The socket to use
+	 * @throws IOException If there is a network error
 	 */
 	public RemotePlayer(Socket s) throws IOException{
 		this.s = s;

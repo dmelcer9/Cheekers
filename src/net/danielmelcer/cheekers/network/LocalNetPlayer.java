@@ -21,6 +21,7 @@ public class LocalNetPlayer extends HumanPlayer {
 	/**
 	 * Constructs a LocalNetPlayer with a socket
 	 * @param s The socket to use
+	 * @throws IOException If there is a network error
 	 */
 	public LocalNetPlayer(Socket s) throws IOException{
 		this.s = s;
